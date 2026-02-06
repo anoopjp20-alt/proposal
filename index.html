@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Alisha ❤️</title>
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#ffe6eb;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.screen{display:none;}
+.active{display:block;}
+
+.envelope{
+  width:260px;
+  height:160px;
+  background:white;
+  border-radius:8px;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+
+.flap{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:#f3f3f3;
+  clip-path:polygon(0 0,50% 50%,100% 0);
+  transform-origin:top;
+  transition:1s;
+}
+
+.open .flap{transform:rotateX(180deg);}
+
+.heart{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:32px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  50%{transform:translateX(-50%) scale(1.3);}
+}
+
+.butterfly{
+  position:absolute;
+  font-size:24px;
+  animation:fly 4s linear forwards;
+}
+
+@keyframes fly{
+  from{bottom:0;opacity:1;}
+  to{bottom:120%;left:var(--x);opacity:0;}
+}
+
+input{
+  padding:10px;
+  font-size:18px;
+  width:160px;
+  text-align:center;
+  border-radius:8px;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+  font-size:16px;
+  margin:10px;
+}
+
+#yesBtn{position:absolute;}
+
+.heartFloat{
+  position:absolute;
+  font-size:22px;
+  animation:float 3s linear forwards;
+}
+
+@keyframes float{
+  from{bottom:0;opacity:1;}
+  to{bottom:100%;opacity:0;}
+}
+
+.confetti{
+  position:absolute;
+  font-size:26px;
+  animation:fall 3s linear infinite;
+}
+
+@keyframes fall{
+  from{top:0;}
+  to{top:100%;}
+}
+
+.firework{
+  position:absolute;
+  font-size:30px;
+  animation:boom 2s ease-out infinite;
+}
+
+@keyframes boom{
+  0%{transform:scale(0);}
+  50%{transform:scale(1.5);}
+  100%{transform:scale(0);}
+}
+
+img{
+  width:220px;
+  border-radius:20px;
+  margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="s1">
+  <div class="envelope" id="env" onclick="openEnvelope()">
+    <div class="flap"></div>
+    <div class="heart">❤️</div>
+  </div>
+  <p>Tap to open ✉️</p>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+  <h2>Enter PIN 🔐</h2>
+  <input id="pin" placeholder="****"><br>
+  <button onclick="checkPin()">Unlock</button><br>
+  <button onclick="hint()">Hint</button>
+  <p id="hintText"></p>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
+  <h2>Will you be my Valentine,<br>Miss Alisha? 💌</h2>
+  <button onclick="no()">NO ❌</button>
+  <button id="yesBtn" onclick="moveYes()">YES ❤️</button>
+  <p id="msg"></p>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen" id="s4">
+  <p>
+    From a simple hello to forever,<br>
+    every heartbeat of mine chose you.<br>
+    Through every smile, every silence,<br>
+    I found my home in you. ❤️
+  </p>
+  <img src="couple.jpg">
+  <h1>Happy Married Life 💍❤️</h1>
+</div>
+
+<script>
+let yesCount=0;
+
+function openEnvelope(){
+  document.getElementById("env").classList.add("open");
+  for(let i=0;i<10;i++){
+    let b=document.createElement("div");
+    b.className="butterfly";
+    b.innerText="🦋";
+    b.style.left=Math.random()*100+"%";
+    b.style.setProperty("--x",Math.random()*100+"%");
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),4000);
+  }
+  setTimeout(()=>show(2),1200);
+}
+
+function hint(){
+  document.getElementById("hintText").innerText=
+  "Write a special date to you 💕";
+}
+
+function checkPin(){
+  if(document.getElementById("pin").value==="0410"){
+    show(3);
+  }else alert("Wrong PIN 😅");
+}
+
+function no(){
+  document.getElementById("msg").innerText=
+  "The NO button is not working 😌";
+}
+
+function moveYes(){
+  yesCount++;
+  let y=document.getElementById("yesBtn");
+  y.style.top=Math.random()*60+"%";
+  y.style.left=Math.random()*60+"%";
+
+  if(yesCount>=6){
+    show(4);
+    celebrate();
+  }
+}
+
+function celebrate(){
+  document.getElementById("music").play();
+
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heartFloat";
+    h.innerText="❤️";
+    h.style.left=Math.random()*100+"%";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),3000);
+  },300);
+
+  for(let i=0;i<15;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.innerText="🎉";
+    c.style.left=Math.random()*100+"%";
+    document.body.appendChild(c);
+  }
+
+  for(let i=0;i<6;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.innerText="🎆";
+    f.style.left=Math.random()*100+"%";
+    f.style.top=Math.random()*50+"%";
+    document.body.appendChild(f);
+  }
+}
+
+function show(n){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("s"+n).classList.add("active");
+}
+</script>
+
+</body>
+</html>
